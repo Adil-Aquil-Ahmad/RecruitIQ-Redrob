@@ -30,3 +30,8 @@ env/
 .idea/
 .vscode/
 *.swp
+
+# Next.js frontend build artifacts
+frontend/.next/
+frontend/node_modules/
+frontend/.vercel/
