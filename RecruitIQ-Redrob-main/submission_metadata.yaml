@@ -1,0 +1,64 @@
+team_name: "s24cseu1655"
+
+primary_contact:
+  name: "Adil Aquil Ahmad"
+  email: "adilaquil2005@gmail.com"
+  phone: "+91-XXXXXXXXXX"
+
+team_members:
+  - name: "Adil Aquil Ahmad"
+    email: "adilaquil2005@gmail.com"
+    role: "ML Engineer"
+  - name: "Moksha Sharma"
+    email: "moksh1249@gmail.com"
+    role: "Data Scientist"
+  - name: "Kenis Surat Ningombam"
+    email: "s24cseu1093@bennett.edu.in"
+    role: "Research Engineer"
+  - name: "Aditya Verma"
+    email: "s24cseu1761@bennett.edu.in"
+    role: "Backend Engineer"
+
+github_repo: "https://github.com/YOUR_USERNAME/redrob-ranker"
+sandbox_link: "https://huggingface.co/spaces/YOUR_USERNAME/redrob-ranker"
+reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./submission.csv"
+
+compute:
+  platform: "MacBook Pro M2"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.11"
+  os: "macOS"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: true
+  pre_computation_time_minutes: 5
+
+ai_tools_used:
+  - "Claude"
+
+ai_usage_summary: |
+  Used Claude for architecture planning, data analysis, and code review.
+  All feature engineering and weight calibration are data-driven (validated
+  against dataset statistics). No candidate data was fed to any external LLM.
+  The ranking step runs entirely offline with no API calls.
+
+methodology_summary: |
+  Three-stage CPU ranking pipeline. Stage 1: title + industry + YoE scoring
+  reduces 100K to 12K (O(N), ~3s). Stage 2: BM25 over career descriptions
+  and MiniLM embeddings over headline+summary combined via Reciprocal Rank
+  Fusion reduces to 1K (~5s, uses precomputed index and embeddings). Stage 3:
+  full feature matrix across 8 groups — platform signals (28%), career text
+  (20%), title/ML-career trajectory (18%), verified assessments (10%),
+  industry (8%), GitHub (6%), engagement (5%), education+logistics (5%).
+  Weights data-validated against recruiter-behavior proxy signals. Honeypot
+  detection requires 2+ impossible-profile signals to avoid false positives.
+  Top-10 sanity pass prevents wrong-title candidates from ranking highly.
+  Total ranking runtime ~30s on CPU; precomputation ~5min offline.
+
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: false
